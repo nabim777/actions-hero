@@ -1,0 +1,13 @@
+name: Create a comment on new issues
+
+on:
+  issues:
+    types: [open]
+
+jobs:
+  comment-with-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "dumop github context"
+        run: echo '${{ toJSON(github.event)}}' | jq
+        shell: bash
