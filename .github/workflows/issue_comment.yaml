@@ -1,6 +1,7 @@
 name: Create a comment on new issues
 
 on:
+  #whenever there is issues it runs
   issues:
     types: [open]
   workflow_dispatch:
@@ -9,6 +10,8 @@ jobs:
   comment-with-action:
     runs-on: ubuntu-latest
     steps:
-      - name: "dumop github context"
+      - name: "dump github context"
+        #shell command with github action json
+        #jq for output in colorful
         run: echo '${{ toJSON(github.event)}}' | jq
         shell: bash
