@@ -3,12 +3,14 @@ name: Create a comment on new issues
 on:
   #whenever there is issues it runs
   issues:
-    types: [open]
+    types: [opened]
   workflow_dispatch:
 
 jobs:
   comment-with-action:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: "dump github context"
         #shell command with github action json
@@ -16,7 +18,7 @@ jobs:
         run: echo '${{ toJSON(github.event)}}' | jq
         shell: bash
       - name: Create comment
-        uses: peter-evans/create-or-update-comment@v3
+        uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
@@ -26,3 +28,4 @@ jobs:
 
             [1]: https://github.com/peter-evans/create-or-update-comment
           reactions: '+1'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
