@@ -12,11 +12,6 @@ jobs:
     permissions:
       issues: write
     steps:
-      - name: "dump github context"
-        #shell command with github action json
-        #jq for output in colorful
-        run: echo '${{ toJSON(github.event)}}' | jq
-        shell: bash
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
         with:
@@ -28,4 +23,3 @@ jobs:
 
             [1]: https://github.com/peter-evans/create-or-update-comment
           reactions: '+1'
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
