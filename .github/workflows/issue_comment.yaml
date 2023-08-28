@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  comment-with-action:
+  comment-on-issues:
     runs-on: ubuntu-latest
     permissions:
       issues: write
