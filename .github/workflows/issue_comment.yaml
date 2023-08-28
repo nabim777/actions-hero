@@ -1,4 +1,4 @@
-name: Create a comment on new issues
+name: Create a bot comment
 
 on:
   #whenever there is issues it runs
@@ -17,9 +17,5 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            This is a multi-line test comment
-            - With GitHub **Markdown** :sparkles:
-            - Created by [create-or-update-comment][1]
-
-            [1]: https://github.com/peter-evans/create-or-update-comment
+            Hello @${issueAuthor}, thanks for creating issue #${issueNumber}! Our team will take a look soon.
           reactions: '+1'
