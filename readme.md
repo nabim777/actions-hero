@@ -12,5 +12,6 @@ But step are run in sequencly one after another
 ## Terms
 `workflow_dispatch` (it simply make UI in workflow to run)
 
-![image](https://github.com/nabim777/actions-hero/assets/61624650/877ee93b-2b14-4cd2-bbba-5a2f43eb5de1)
+![image](https://github.com/nabim777/actions-hero/assets/61624650/787f37ed-38fe-4016-8392-1e0b58eae68a)
+
 
