@@ -17,5 +17,5 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            Hello @${issueAuthor}, thanks for creating issue #${issueNumber}! Our team will take a look soon.
+            Hello @${{ github.event.issue.user.login }}, thanks for creating issue #${{ github.event.issue.number }}! Our team will take a look soon.
           reactions: '+1'
