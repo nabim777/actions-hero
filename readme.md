@@ -14,6 +14,7 @@
 `workflow_dispatch` (it simply make UI in workflow to run)
 
 ## figure
-![image](https://github.com/nabim777/actions-hero/assets/61624650/787f37ed-38fe-4016-8392-1e0b58eae68a)
+![image](https://github.com/nabim777/actions-hero/assets/61624650/d281d2f9-1fe6-498b-90d1-c638a8781099)
+
 
 
