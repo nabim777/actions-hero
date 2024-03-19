@@ -7,15 +7,21 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:    
+  #it is an events gives us the button in UI to run the code without push in the repository
+  workflow_dispatch:
 
 jobs:
-  build:
+  hello:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Print a message
-      run: echo "Hello, GitHub Actions!"
+      - uses: actions/checkout@v2
+      - name: hello world
+        run: echo "Hello world"
+        shell: bash
+  
+  goodbye:
+    runs-on: ubuntu-latest
+    steps:
+      - name: goodbye world
+        run: echo "Good Bye"
+        shell: bash
