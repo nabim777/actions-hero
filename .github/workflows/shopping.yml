@@ -11,14 +11,26 @@ on:
 jobs:
   run-e2e-tests:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: hello
+          POSTGRES_DB: test
+        ports:
+          - 34837:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        
     steps:
-      - uses: ikalnytskyi/action-setup-postgres@v5
-        with:
-          username: ci
-          password: sw0rdfish
-          database: test
-          port: 34837
-        id: postgres
+      # - uses: ikalnytskyi/action-setup-postgres@v5
+      #   with:
+      #     username: ci
+      #     password: sw0rdfish
+      #     database: test
+      #     port: 34837
+      #   id: postgres
 
       # - name: pnpm install
       #   uses: pnpm/action-setup@v2
