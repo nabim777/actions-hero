@@ -20,10 +20,10 @@ jobs:
           port: 34837
         id: postgres
 
-      - name: pnpm install
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
+      # - name: pnpm install
+      #   uses: pnpm/action-setup@v2
+      #   with:
+      #     version: 8
 
       - name: set up node
         uses: actions/setup-node@v3
