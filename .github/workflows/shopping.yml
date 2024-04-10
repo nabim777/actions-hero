@@ -36,6 +36,7 @@ jobs:
           cd evershop
           npm install
           ls
+          npm run setup
 
     # services:
     #     postgres:
