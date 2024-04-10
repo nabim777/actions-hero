@@ -19,6 +19,23 @@ jobs:
           database: test
           port: 34837
         id: postgres
+
+      - name: pnpm install
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      # - name: set up the file application
+      #   run: |
+      #     git clone https://github.com/ishabaral/evershop.git --depth 1
+      #     cd evershop
+      #     npm install
+
     # services:
     #     postgres:
     #       image: postgres:10.10
