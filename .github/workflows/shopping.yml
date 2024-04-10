@@ -11,6 +11,14 @@ on:
 jobs:
   run-e2e-tests:
     runs-on: ubuntu-latest
+    steps:
+      - uses: ikalnytskyi/action-setup-postgres@v5
+        with:
+          username: ci
+          password: sw0rdfish
+          database: test
+          port: 34837
+        id: postgres
     # services:
     #     postgres:
     #       image: postgres:10.10
@@ -26,10 +34,10 @@ jobs:
     #       ports:
     #         - 6379/tcp
 
-    steps:
-      - uses: harmon758/postgresql-action@v1
-        with:
-            postgresql version: '11'
+    # steps:
+    #   - uses: harmon758/postgresql-action@v1
+    #     with:
+    #         postgresql version: '11'
   
     # steps:
     #   - name: set up postgresql
