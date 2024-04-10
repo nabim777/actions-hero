@@ -1,0 +1,35 @@
+name: Shopping ecommerce
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  run-e2e-tests:
+    runs-on: ubuntu-latest
+    services:
+        postgres:
+          image: postgres:10.10
+          env:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: db_test
+          ports:
+            - 5432/tcp
+          options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        redis:
+          image: redis:latest
+          ports:
+            - 6379/tcp
+  
+    # steps:
+    #   - name: set up postgresql
+    #     uses: actions/checkout@v3
+
+      # - name: set up the file application
+      #   run: |
+      #     git clone https://github.com/ishabaral/evershop.git --depth 1
