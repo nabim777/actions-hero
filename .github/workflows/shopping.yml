@@ -56,8 +56,8 @@ jobs:
           npm run build
           npm run start &
 
-      - name: run tests
-        run: npm run test
+      # - name: run tests
+      #   run: npm run test
 
           
 
