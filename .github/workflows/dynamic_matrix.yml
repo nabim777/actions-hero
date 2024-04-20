@@ -1,8 +1,12 @@
 name: Nightly Build
 
 on:
-  schedule:
-    - cron: '0 22 * * *'  # Schedule the workflow to run nightly
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
