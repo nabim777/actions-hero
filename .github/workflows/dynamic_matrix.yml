@@ -1,0 +1,23 @@
+name: Nightly Build
+
+on:
+  schedule:
+    - cron: '0 22 * * *'  # Schedule the workflow to run nightly
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
+        other-matrix-param: [value1, value2]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set dynamic matrix value
+        run: echo "other-matrix-param=value3" >> $GITHUB_ENV
+
+      # You can add more steps here
