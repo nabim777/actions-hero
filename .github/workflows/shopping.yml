@@ -1,0 +1,90 @@
+name: Shopping ecommerce
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  run-e2e-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: hello
+          POSTGRES_DB: test
+        ports:
+          - 34837:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        
+    steps:
+      # - uses: ikalnytskyi/action-setup-postgres@v5
+      #   with:
+      #     username: ci
+      #     password: sw0rdfish
+      #     database: test
+      #     port: 34837
+      #   id: postgres
+
+      # - name: pnpm install
+      #   uses: pnpm/action-setup@v2
+      #   with:
+      #     version: 8
+
+      - name: set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: set up the file application
+        run: |
+          git clone https://github.com/ishabaral/evershop.git --depth 1
+          cd evershop
+          npm install
+          ls
+          npm run setup
+          npm run dev &
+
+      - name: set up for run tests
+        run: |
+          npm run build
+          npm run start &
+
+      # - name: run tests
+      #   run: npm run test
+
+          
+
+    # services:
+    #     postgres:
+    #       image: postgres:10.10
+    #       env:
+    #         POSTGRES_USER: postgres
+    #         POSTGRES_PASSWORD: postgres
+    #         POSTGRES_DB: db_test
+    #       ports:
+    #         - 5432/tcp
+    #       options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    #     redis:
+    #       image: redis:latest
+    #       ports:
+    #         - 6379/tcp
+
+    # steps:
+    #   - uses: harmon758/postgresql-action@v1
+    #     with:
+    #         postgresql version: '11'
+  
+    # steps:
+    #   - name: set up postgresql
+    #     uses: actions/checkout@v3
+
+      # - name: set up the file application
+      #   run: |
+      #     git clone https://github.com/ishabaral/evershop.git --depth 1
