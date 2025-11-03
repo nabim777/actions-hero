@@ -1,21 +1,21 @@
-name: Create a bot comment
+# name: Create a bot comment
 
-on:
-  #whenever there is issues it runs
-  issues:
-    types: [opened]
-  workflow_dispatch:
+# on:
+#   #whenever there is issues it runs
+#   issues:
+#     types: [opened]
+#   workflow_dispatch:
 
-jobs:
-  comment-on-issues:
-    runs-on: ubuntu-latest
-    permissions:
-      issues: write
-    steps:
-      - name: Create comment
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          issue-number: ${{ github.event.issue.number }}
-          body: |
-            Hello @${{ github.event.issue.user.login }}, thanks for creating issue #${{ github.event.issue.number }}! Our team will take a look soon.
-          reactions: '+1'
+# jobs:
+#   comment-on-issues:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       issues: write
+#     steps:
+#       - name: Create comment
+#         uses: peter-evans/create-or-update-comment@v1
+#         with:
+#           issue-number: ${{ github.event.issue.number }}
+#           body: |
+#             Hello @${{ github.event.issue.user.login }}, thanks for creating issue #${{ github.event.issue.number }}! Our team will take a look soon.
+#           reactions: '+1'
