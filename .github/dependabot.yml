@@ -3,24 +3,19 @@
 # Please see the documentation for all configuration options:
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
-version: 2
-updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+name: Dependabot Matrix Notification
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  push:
+    branches: [dependabot/**]
 
 jobs:
-    notify:
-        if: github.actor == 'dependabot[bot]'
-        runs-on: ubuntu-latest
-        steps:
-            - name: checkout code
-              uses: actions/checkout@v2
+  notify:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification to Matrix
+        run: echo "Dependabot made a change in the repository!"
 
-            - name: Send notification to Matrix
-              env:
-                ELEMENT_CHAT_URL: ${{ secrets.ELEMENT_CHAT_URL }}
-                ELEMENT_ROOM_ID: ${{ secrets.ELEMENT_ROOM_ID }}
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                REPO_OWNER: nextcloud
-                REPO_NAME: integration_openproject
-              run: echo "This is a test notification for Dependabot updates"
