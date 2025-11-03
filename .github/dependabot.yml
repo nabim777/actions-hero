@@ -9,3 +9,20 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+
+jobs:
+    notify:
+        if: github.actor == 'dependabot[bot]'
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v2
+
+            - name: Send notification to Matrix
+              env:
+                ELEMENT_CHAT_URL: ${{ secrets.ELEMENT_CHAT_URL }}
+                ELEMENT_ROOM_ID: ${{ secrets.ELEMENT_ROOM_ID }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                REPO_OWNER: nextcloud
+                REPO_NAME: integration_openproject
+              run: echo "This is a test notification for Dependabot updates"
