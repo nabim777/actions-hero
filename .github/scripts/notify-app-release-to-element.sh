@@ -26,6 +26,11 @@ log_info "Fetching latest Nextcloud release tag....."
 nextcloud_latest_release_tag=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
 "https://api.github.com/repos/nextcloud/server/releases" | jq -r '.[] | select(.prerelease == false) | .tag_name' | head -n 1)
 
+# Check if the tag is empty or null
+if [[ -z "$nextcloud_latest_release_tag" || "$nextcloud_latest_release_tag" == "null" ]]; then
+    log_error "Failed to fetch Nextcloud latest release tag. Tag is empty or null."
+    exit 1
+fi
 
 major_version=$(echo "$nextcloud_latest_release_tag" | sed -E 's/^v([0-9]+)\..*/\1/')
 
