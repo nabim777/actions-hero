@@ -26,7 +26,7 @@ update_repo_variable(){
     log_info "Updating variable '$variable_name' to value '$new_value'..."
     
     variable_update_response=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH \
-        -H "Authorization: token $GITHUB_TOKEN" \
+        -H "Authorization: token $TOKEN_GITHUB" \
         -H "Content-Type: application/json" \
         -d '{"value": "'"$new_value"'"}' \
         "https://api.github.com/repos/nabim777/actions-hero/actions/variables/$variable_name")
@@ -51,7 +51,7 @@ log_info "Fetching latest Nextcloud release tag....."
 # LATEST_SUPPORTED_NC_VERSION=31
 
 
-nextcloud_latest_release_tag=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+nextcloud_latest_release_tag=$(curl -s -H "Authorization: token $TOKEN_GITHUB" \
 "https://api.github.com/repos/nextcloud/server/releases" | jq -r '.[] | select(.prerelease == false) | .tag_name' | head -n 1)
 
 # Check if the tag is empty or null
