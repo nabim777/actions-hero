@@ -13,6 +13,34 @@ log_success() {
   echo -e "\e[32m$1\e[0m"
 }
 
+update_repo_variable(){
+    variable_name=$1
+    
+    if [[ -z "$variable_name" ]]; then
+        log_error "update_repo_variable requires variable_name parameters"
+        return 1
+    fi
+
+    new_value=$((LATEST_SUPPORTED_NC_VERSION + 1));
+    
+    log_info "Updating variable '$variable_name' to value '$new_value'..."
+    
+    variable_update_response=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH \
+        -H "Authorization: token $GITHUB_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{"value": "'"$new_value"'"}' \
+        "https://api.github.com/repos/nabim777/actions-hero/actions/variables/$variable_name")
+
+    # Check if the update was successful
+    if [[ ${variable_update_response} == 204 ]]; then
+      log_success "✅ Variable '$variable_name' updated successfully"
+    else
+      log_error "❌ Failed to update variable '$variable_name'"
+      log_error "Response status code: $variable_update_response"
+      exit 1
+    fi
+}
+
 log_info "Fetching latest Nextcloud release tag....."
 
 
@@ -50,10 +78,9 @@ if [[ "$major_version" -gt "$LATEST_SUPPORTED_NC_VERSION" ]]; then
                                     '
                                     )
      # Check if the message was sent successfully
-    log_info "Response from Element: $send_message_to_room_response"
-    
     if echo "$send_message_to_room_response" | grep -q '"event_id"'; then
         log_success "✅ Message sent successfully to Element room!"
+        update_repo_variable "LATEST_SUPPORTED_NC_VERSION"
     else
         log_error "❌ Failed to send message to Element room."
         log_error "Response: $send_message_to_room_response"
