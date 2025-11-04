@@ -49,6 +49,16 @@ if [[ "$major_version" -gt "$LATEST_SUPPORTED_NC_VERSION" ]]; then
                                         }
                                     '
                                     )
+     # Check if the message was sent successfully
+    log_info "Response from Element: $send_message_to_room_response"
+    
+    if echo "$send_message_to_room_response" | grep -q '"event_id"'; then
+        log_success "✅ Message sent successfully to Element room!"
+    else
+        log_error "❌ Failed to send message to Element room."
+        log_error "Response: $send_message_to_room_response"
+        exit 1
+    fi
 else
     log_info "No new Nextcloud release. Latest stable version is still: $LATEST_SUPPORTED_NC_VERSION"
     exit 0
