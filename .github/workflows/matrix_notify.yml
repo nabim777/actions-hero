@@ -1,0 +1,30 @@
+name: Hello world workflow
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  #it is an events gives us the button in UI to run the code without push in the repository
+  workflow_dispatch:
+
+jobs:
+  notify-app-release:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Notify nightly report to element
+        env:
+          ELEMENT_CHAT_URL: ${{ secrets.ELEMENT_CHAT_URL }}
+          ELEMENT_ROOM_ID: ${{ secrets.ELEMENT_ROOM_ID }}
+          NIGHTLY_CI_USER_TOKEN: ${{ secrets.NIGHTLY_CI_USER_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.run_id }}
+          REPO_OWNER: nextcloud
+          REPO_NAME: integration_openproject
+          LATEST_SUPPORTED_NC_VERSION: 31
+        run: ./.github/scripts/notify-app-release-to-element.sh
