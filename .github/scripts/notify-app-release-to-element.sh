@@ -42,6 +42,8 @@ update_repo_variable(){
 }
 
 get_latest_release_tag(){
+  log_info "Fetching latest Nextcloud release tag....."
+
   repo_name=$1
   releases_json=$(curl -s -H "Authorization: token $TOKEN_GITHUB" "https://api.github.com/repos/nextcloud/$repo_name/releases")
 
@@ -59,9 +61,10 @@ get_latest_release_tag(){
 }
 
 send_message_to_room(){
+  get_latest_release_tag "server"
   if dpkg --compare-versions "$nextcloud_latest_release_tag" gt "$LATEST_SUPPORTED_NC_VERSION"; then
     log_info "New Nextcloud release detected: $nextcloud_latest_release_tag"
-    send_message_to_room_response=$(curl -s -XPOST "$ELEMENT_CHAT_URL/_matrix/client/r0/rooms/%21$ELEMENT_ROOM_ID/send/m.room.message?access_token=$NIGHTLY_CI_USER_TOKEN" \
+    send_message_to_room_response=$(curl -s -o /dev/null -w "%{http_code}" -XPOST "$ELEMENT_CHAT_URL/_matrix/client/r0/rooms/%21$ELEMENT_ROOM_ID/send/m.room.message?access_token=$NIGHTLY_CI_USER_TOKEN" \
                                     -d '
                                         {
                                         "msgtype": "m.text",
@@ -72,12 +75,12 @@ send_message_to_room(){
                                     '
                                     )
      # Check if the message was sent successfully
-    if echo "$send_message_to_room_response" | grep -q '"event_id"'; then
+    if [[ ${send_message_to_room_response} == 200 ]]; then
         log_success "✅ Message sent successfully to Element room!"
         update_repo_variable "LATEST_SUPPORTED_NC_VERSION"
     else
         log_error "❌ Failed to send message to Element room."
-        log_error "Response: $send_message_to_room_response"
+        log_error "Response code: $send_message_to_room_response"
         exit 1
     fi
   else
@@ -85,9 +88,6 @@ send_message_to_room(){
       exit 0
   fi
 }
-
-
-log_info "Fetching latest Nextcloud release tag....."
 
 
 # ELEMENT_CHAT_URL=https://matrix.openproject.org
@@ -99,9 +99,6 @@ log_info "Fetching latest Nextcloud release tag....."
 
 # nextcloud_latest_release_tag=$(curl -s -H "Authorization: token $TOKEN_GITHUB" \
 # "https://api.github.com/repos/nextcloud/server/releases" | jq -r '.[] | select(.prerelease == false) | .tag_name' | head -n 1)
-
-
-get_latest_release_tag "server"
 
 send_message_to_room
 
