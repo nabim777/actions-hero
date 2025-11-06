@@ -1,0 +1,8 @@
+{
+  "[shellscript]": {
+    "editor.defaultFormatter": "mkhl.shfmt",           // or whichever extension you installed
+    "editor.formatOnSave": true
+  },
+  "shellformat.path": "/usr/local/bin/shfmt",           // path to your shfmt binary
+  "shellformat.args": ["-i", "2", "-ci", "-bn"]          // optional shfmt flags
+}
