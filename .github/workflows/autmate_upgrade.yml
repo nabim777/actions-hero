@@ -29,17 +29,22 @@ jobs:
             path: server
             ref: stable33
 
-        - name: path checking
+        - name: Clone and install integration_openproject app
           run: |
-            pwd
-            ls -l
-            cd integration_openproject
-            ls -l
-
-        - name: path check
-          run: |
+            cd server/apps
             git clone https://github.com/nextcloud/integration_openproject.git
             cd integration_openproject
+            make
+            php ../../occ maintenance:install --admin-pass=admin
+            php ../../occ a:e integration_openproject
+
+
+        - name: Update integration_openproject app
+          working-directory: server/apps/integration_openproject
+          run: |
+            pwd
+            ls
             git checkout release/3.0
-            git branch
-            git pull
+            php ../../occ upgrade
+            php ../../occ app:update --allow-unstable integration_openproject
+            
