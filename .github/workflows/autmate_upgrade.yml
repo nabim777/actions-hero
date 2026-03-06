@@ -29,22 +29,31 @@ jobs:
             path: server
             ref: stable33
 
-        - name: Clone and install integration_openproject app
+        - name: Checkout integration_openproject app (initial version)
+          uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+          with:
+            repository: nextcloud/integration_openproject
+            path: server/apps/integration_openproject
+            ref: master   # or the initial branch/tag before upgrade
+
+        - name: Install server and enable integration_openproject app
           run: |
-            cd server/apps
-            git clone https://github.com/nextcloud/integration_openproject.git
-            cd integration_openproject
+            cd server/apps/integration_openproject
             make
             php ../../occ maintenance:install --admin-pass=admin
             php ../../occ a:e integration_openproject
 
+        - name: Checkout integration_openproject app (release version for upgrade)
+          uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+          with:
+            repository: nextcloud/integration_openproject
+            path: server/apps/integration_openproject
+            ref: release/3.0   # the version to upgrade to
 
         - name: Update integration_openproject app
           working-directory: server/apps/integration_openproject
           run: |
             pwd
             ls
-            git checkout release/3.0
             php ../../occ upgrade
             php ../../occ app:update --allow-unstable integration_openproject
-            
