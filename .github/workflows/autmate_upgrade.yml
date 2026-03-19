@@ -29,11 +29,8 @@ jobs:
             path: server
             ref: stable33
             
-        - name: Get short branch name
-          run: echo "The short branch name is ${{ github.ref_name }}"
-
-        - name: Get full ref name
-          run: echo "The full ref name is ${{ github.ref }}"
+        - name: Get branch name
+          run: echo "The short branch name is ${{ github.event.pull_request.base.ref }}"
 
         - name: Checkout integration_openproject app (initial version)
           uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
