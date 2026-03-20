@@ -35,12 +35,11 @@ jobs:
             repository: nextcloud/integration_openproject
             path: server/apps/integration_openproject
             ref: master   # or the initial branch/tag before upgrade
-
+            
         - name: Install server and enable integration_openproject app
           run: |
             cd server/apps/integration_openproject
-            make
-            php ../../occ maintenance:install --admin-pass=admin
+            php ../../occ maintenance:install --database=sqlite --database-name=nextcloud --admin-user=admin --admin-pass=admin
             php ../../occ a:e integration_openproject
 
         - name: Checkout integration_openproject app (release version for upgrade)
