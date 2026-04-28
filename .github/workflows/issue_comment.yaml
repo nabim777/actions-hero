@@ -2,9 +2,9 @@ name: Create a bot comment
 
 on:
   #whenever there is issues it runs
-  issues:
-    types: [opened]
-  workflow_dispatch:
+  # issues:
+  #   types: [opened]
+  # workflow_dispatch:
 
 jobs:
   comment-on-issues:
