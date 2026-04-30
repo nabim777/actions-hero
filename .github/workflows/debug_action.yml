@@ -1,0 +1,19 @@
+name: New Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  debug-workflow:
+    name: Job to debug the workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup Debug Session
+        uses: csexton/debugger-action@master

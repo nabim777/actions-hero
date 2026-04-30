@@ -25,3 +25,10 @@ jobs:
       - name: goodbye world
         run: echo "Good Bye"
         shell: bash
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      
+      - name: Setup Debug Session
+        uses: csexton/debugger-action@master
