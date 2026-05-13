@@ -1,27 +1,27 @@
 name: Hello world workflow
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  #it is an events gives us the button in UI to run the code without push in the repository
-  workflow_dispatch:
+on: [ pull_request]
 
 jobs:
   hello:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: hello world
-        run: echo "Hello world"
-        shell: bash
-  
-  goodbye:
-    runs-on: ubuntu-latest
-    steps:
-      - name: goodbye world
-        run: echo "Good Bye"
-        shell: bash
+
+      - name: Check array
+        env:
+          apps: activity oidc user_oidc
+        run: |
+          if [[ "$apps" == "integration_openproject" ]]; then
+            echo "contains integration_openproject"
+          fi
+
+          # if [[ "$apps" != "integration_openproject" ]]; then
+          #   echo "does not contain integration_openproject"
+          # fi
+          if [[ "$apps" == "activity" ]]; then
+            echo "contains activity"
+          fi
+          # for app in $apps; do
+          #   echo "App: $app"
+          # done
