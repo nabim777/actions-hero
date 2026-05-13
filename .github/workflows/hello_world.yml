@@ -10,7 +10,7 @@ jobs:
 
       - name: Check array
         env:
-          apps: activity oidc user_oidc
+          apps: integration_openproject
         run: |
           if [[ "$apps" == "integration_openproject" ]]; then
             echo "contains integration_openproject"
