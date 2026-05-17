@@ -6,22 +6,29 @@ jobs:
   hello:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Check array
-        env:
-          apps: integration_openproject
+      - name: Install Apache
+        run: sudo apt update && sudo apt install -y apache2
+
+      - name: Setup Debug Session
+        uses: csexton/debugger-action@master
+
+      - name: Set webroot
         run: |
-          if [[ "$apps" == "integration_openproject" ]]; then
-            echo "contains integration_openproject"
-          fi
+          sudo rm -rf /var/www/html
+          mkdir -p $GITHUB_WORKSPACE/public
+          echo "Hello, World!" > $GITHUB_WORKSPACE/public/index.html
+          sudo ln -sf $GITHUB_WORKSPACE/public /var/www/html
 
-          # if [[ "$apps" != "integration_openproject" ]]; then
-          #   echo "does not contain integration_openproject"
-          # fi
-          if [[ "$apps" == "activity" ]]; then
-            echo "contains activity"
-          fi
-          # for app in $apps; do
-          #   echo "App: $app"
-          # done
+      - name: Start Apache
+        run: sudo service apache2 start
+
+      - name: Test
+        run: curl http://localhost
+
+      # - name: Setup Debug Session
+      #   uses: csexton/debugger-action@master
+
+      
