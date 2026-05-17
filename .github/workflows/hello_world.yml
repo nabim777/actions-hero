@@ -1,27 +1,83 @@
 name: Hello world workflow
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  #it is an events gives us the button in UI to run the code without push in the repository
-  workflow_dispatch:
+on: [ pull_request]
+
 
 jobs:
-  hello:
+  apache:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v5
-      - name: hello world
-        run: echo "Hello world"
-        shell: bash
-  
-  goodbye:
-    runs-on: ubuntu-latest
-    steps:
-      - name: goodbye world
-        run: echo "Good Bye"
-        shell: bash
+      - uses: actions/checkout@v4
+
+      - name: Install Apache
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y apache2
+
+      - name: Deploy Test Page
+        run: |
+          sudo chown -R $USER:www-data /var/www/html
+          rm -rf /var/www/html/*
+          
+          echo "<h1>Hello from Apache</h1>" | \
+            tee /var/www/html/index.html
+
+          sudo systemctl restart apache2
+
+      - name: Test Apache
+        run: |
+          curl http://localhost
+
+      # - name: Install and Configure Apache
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y apache2
+
+      #     # Create webroot outside workspace
+      #     mkdir -p ~/html
+
+
+      #     # Allow apache access
+      #     # chmod 755 /home/runner
+      #     # chmod -R 755 /home/runner/webroot
+      #     sudo chown :www-data /home/runner
+      #     sudo chown -R :www-data $HOME/html
+      #     # sudo chmod -R g+x $GITHUB_WORKSPACE
+      #     # sudo usermod -aG runner www-data
+
+      #     # Apache config
+      #     sudo tee /etc/apache2/sites-available/000-default.conf > /dev/null <<EOF
+      #     <VirtualHost *:80>
+      #         DocumentRoot $HOME/html
+
+      #         <Directory $HOME/html>
+      #             Options Indexes FollowSymLinks
+      #             AllowOverride All
+      #             Require all granted
+      #         </Directory>
+      #     </VirtualHost>
+      #     EOF
+
+      #     sudo systemctl restart apache2
+
+      # - name: Test Apache
+      #   run: |
+      #     # Test page
+      #     echo "<h1>Hello from Apache</h1>" \
+      #       > ~/html/index.html
+
+      #     curl http://localhost
+
+      - name: Setup Debug Session
+        uses: csexton/debugger-action@master
+
+
+
+
+
+        # just copy the whole file in the default then
+        # change the owbner into $USER:www-data
+
+
+      
