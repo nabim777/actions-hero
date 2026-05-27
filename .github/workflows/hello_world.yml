@@ -5,14 +5,14 @@ on: [ pull_request ]
   # workflow_dispatch:
 
 jobs:
-  "[hello]":
+  _hello_:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - name: hello world
         run: echo "Hello world"
   
-  "[goodbye]":
+  _goodbye_:
     runs-on: ubuntu-latest
     steps:
       - name: goodbye world
@@ -20,7 +20,7 @@ jobs:
 
   merge:
     runs-on: ubuntu-latest
-    needs: ["[hello]", "[goodbye]"]
+    needs: [_hello_, _goodbye_]
     steps:
       - name: merge
         run: echo "Merge"
