@@ -16,10 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: goodbye world
-        run: echo "Good Bye"
+        run: cd hello
 
   merge:
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     needs: [_hello_, _goodbye_]
     steps:
       # - name: print needs
