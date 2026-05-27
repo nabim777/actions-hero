@@ -1,27 +1,43 @@
 name: Hello world workflow
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  #it is an events gives us the button in UI to run the code without push in the repository
-  workflow_dispatch:
+on: [ pull_request ]
+  # #it is an events gives us the button in UI to run the code without push in the repository
+  # workflow_dispatch:
 
 jobs:
-  hello:
+  _hello_:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - name: hello world
         run: echo "Hello world"
-        shell: bash
   
-  goodbye:
+  _goodbye_:
     runs-on: ubuntu-latest
     steps:
       - name: goodbye world
-        run: echo "Good Bye"
-        shell: bash
+        run: cd hello
+
+  merge:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [_hello_, _goodbye_]
+    steps:
+      # - name: print needs
+      #   run: echo '${{ toJson(needs) }}' | jq 'keys'
+      
+      - name: print hello world job result
+        run: |
+          echo "Hello world job result: ${{ needs._hello_.result }}"
+
+      - name: print goodbye world job result
+        run: |
+          echo "Goodbye world job result: ${{ needs._goodbye_.result }}"
+
+      
+
+
+      # - name: Dump needs context
+      #   env:
+      #     NEEDS_CONTEXT: ${{ toJson(needs) }}
+      #   run: echo "$NEEDS_CONTEXT"
