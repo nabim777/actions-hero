@@ -11,4 +11,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Print a message
-      run: echo "Hello, GitHub Actions!"
+      env:
+        REPO_OWNER: ${{ github.repository_owner }}
+        REPO_NAME: ${{ github.event.repository.name }}
+      run: |
+        echo "$REPO_OWNER"
+        echo "$REPO_NAME"
