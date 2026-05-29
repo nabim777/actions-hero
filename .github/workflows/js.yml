@@ -2,18 +2,11 @@ name: Hello world workflow
 
 on: [ pull_request ]
 
+env:
+  DAY_OF_WEEK: Monday
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Print a message
-      env:
-        REPO_OWNER: ${{ github.repository_owner }}
-        REPO_NAME: ${{ github.event.repository.name }}
-      run: |
-        echo "$REPO_OWNER"
-        echo "$REPO_NAME"
+      - run: echo "$DAY_OF_WEEK"
