@@ -12,4 +12,5 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           RUN_ID: ${{ github.run_id }}
           BRANCH_NAME: ${{ github.ref_name }}
+          BRANCH_NAMES: ${{ github.base_ref }}
         run: echo "hello."
