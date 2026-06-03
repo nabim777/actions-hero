@@ -2,20 +2,14 @@ name: Hello world workflow
 
 on: [ pull_request ]
 
-env:
-  DAY_OF_WEEK: Monday
-  BRANCH: release/2.11
 
 jobs:
-  builds:
-    uses: ./.github/workflows/hello_world.yml
-    secrets: inherit
-    with:
-      branch: $BRANCH
-      nextcloud_versions: "31 32"
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - run: echo "$DAY_OF_WEEK"
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check env
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+          BRANCH_NAME: ${{ github.ref_name }}
+        run: echo "hello."
