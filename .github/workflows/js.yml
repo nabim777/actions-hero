@@ -13,4 +13,6 @@ jobs:
           RUN_ID: ${{ github.run_id }}
           BRANCH_NAME: ${{ github.ref_name }}
           BRANCH_NAMES: ${{ github.base_ref }}
-        run: echo "hello."
+        run: |
+          echo "$GITHUB_ACTION_REPOSITORY"
+          echo "$GITHUB_RUN_ID"
