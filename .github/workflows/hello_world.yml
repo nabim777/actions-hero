@@ -1,12 +1,7 @@
 name: Hello world workflow
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
   #it is an events gives us the button in UI to run the code without push in the repository
   workflow_dispatch:
 
@@ -16,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: hello world
-        run: echo "Hello world 1"
+        run: echo "Hello world"
         shell: bash
   
   goodbye:
