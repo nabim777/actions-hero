@@ -1,12 +1,7 @@
 name: Hello world workflow
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
   #it is an events gives us the button in UI to run the code without push in the repository
   workflow_dispatch:
 
