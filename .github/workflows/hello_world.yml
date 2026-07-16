@@ -16,8 +16,8 @@ jobs:
 
       - uses: nolar/setup-k3d-k3s@v1
         with:
-          version: v1.35  # E.g.: v1.35, v1.35.3, v1.35.3+k3s1
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          channel: stable
+          k3d-tag: v5.8.3
 
       - name: check version
         run: k3d version
