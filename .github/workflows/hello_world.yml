@@ -13,10 +13,11 @@ jobs:
       - name: hello world
         run: echo "Hello world"
         shell: bash
-  
-  goodbye:
-    runs-on: ubuntu-latest
-    steps:
-      - name: goodbye world
-        run: echo "Good Bye"
-        shell: bash
+
+      - uses: nolar/setup-k3d-k3s@v1
+        with:
+          version: v1.35  # E.g.: v1.35, v1.35.3, v1.35.3+k3s1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: check version
+        run: k3d version
